@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="Generator" content="EditPlus®">
+  <meta name="Author" content="">
+  <meta name="Keywords" content="">
+  <meta name="Description" content="">
+  <title>zhws脚印</title>
+  <style type="text/css">
+  #mapDiv {
+    width: 1000px;
+    height: 600px;
+    border: solid 1px red;
+    z-index: 100;
+  }
+  
+  .imgDiv {
+    width: 24px;
+    height: 24px;
+    border: solid 0px green;
+    position: absolute;
+    z-index: 200;
+  }
+  </style>
+</head>
+
+<body>
+  <div id="mapDiv">
+    <div>
+      <script type="text/javascript" src="jquery-1.7.js"></script>
+      <script>
+      var arr = [];
+      var deg = '';
+      $('#mapDiv').mousedown(function(event) {
+        var event = event || window.event;
+        if (event && event.stopPropagation) {
+          event.stopPropagation();
+        } else {
+          event.cancelBubble = true;
+        }
+        // body...
+        var x = '',
+          y = '',
+          deg = '';
+
+        var offsetX = event.offsetX;
+        var offsetY = event.offsetY;
+        if (arr.length == 0) {
+          x = offsetX;
+          y = offsetY;
+        } else {
+          x = offsetX - arr[arr.length - 1].offsetX;
+          y = offsetY - arr[arr.length - 1].offsetY;
+        }
+
+        if (x >= 0) {
+          deg = Math.atan(y / x) * 360 / (2 * Math.PI);
+        } else {
+          deg = Math.atan(y / x) * 360 / (2 * Math.PI) - 180;
+        }
+
+        $('#mapDiv').append('<div class="imgDiv" style="top:' + offsetY + 'px; left:' + offsetX + 'px" >' +
+          '<img  src="0_2.png" style = "transform:rotate(' + deg + 'deg)" width="24px" height="24px" />' +
+          '<div>');
+        arr.push({
+          offsetX: event.offsetX,
+          offsetY: event.offsetY
+        });
+      })
+      </script>
+</body>
+
+</html>
